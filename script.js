@@ -1,24 +1,32 @@
-const API_KEY = "04c35731a5ee918f014970082a0088b1";
-const API_URL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key="+ API_KEY + "&page=1";
+const API_KEY = "add your API key here";
+const API_URL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key="+API_KEY+"&page=1";
 const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
+const SEARCH_API = "https://api.themoviedb.org/3/search/movie?&api_key="+API_KEY+"&query=";
 
-const main = document.querySelector('main');
+const main = document.getElementById('main');
+const form = document.getElementById('form');
+const search = document.getElementById('search');
 
-async function getMovies(){
-   const resp = await fetch(API_URL);
+//initally get top trending movies
+getMovies(API_URL);
+
+async function getMovies(url){
+   const resp = await fetch(url);
    const respData = await resp.json();
 
    console.log(respData);
 
-    // respData.results.forEach(movie => {
-    //     const img = document.createElement("img");
-    //     img.src = IMG_PATH + movie.poster_path;
-    //     document.body.appendChild(img);
-    // });
+   //calling showMovies function
+   showMovies(respData.results);
+}
 
-    respData.results.forEach(movie => {
+function showMovies(movies){
+    //clear main container
+    main.innerHTML = '';
+
+    movies.forEach(movie => {
         //create an object from the API data
-        const { poster_path, title, vote_average} = movie;
+        const { poster_path, title, vote_average, overview } = movie;
 
         const movieElement = document.createElement('div');
         movieElement.classList.add('movie');
@@ -32,12 +40,14 @@ async function getMovies(){
                 <h3>${title}</h3>
                 <span class="${getClassByRate(vote_average)}">${vote_average}</span>
             </div>
+            <div class="overview">
+                <h4>Overview:</h4>
+                ${overview}
+            </div>
         `
 
         main.appendChild(movieElement);
-    })
-
-   return respData;
+    });
 }
 
 function getClassByRate(vote){
@@ -50,4 +60,14 @@ function getClassByRate(vote){
     }
 }
 
-getMovies();
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const searchTerm = search.value;
+
+    if(searchTerm){
+        getMovies(SEARCH_API + searchTerm);
+        search.value = '';
+    }
+});
+
