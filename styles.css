@@ -15,12 +15,41 @@ main {
     flex-wrap: wrap;
 }
 
+header {
+    background-color: #358597;
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.search{
+    background-color: transparent;
+    border: 2px solid #f4a896;
+    border-radius: 50px;
+    padding: 0.5rem;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    color: #fff;
+}
+
+.search::placeholder{
+    color: #fff;
+}
+
+.search:focus {
+    outline: none;
+    background-color: #fff;
+    color: #000;
+}
+
 .movie {
     border-radius: 3px;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
     width: 300px;
     color: #fff;
     margin: 1rem;
+    overflow: hidden;
 }
 
 .movie img {
@@ -45,4 +74,17 @@ main {
     background-color: #246473;
     padding: 0.25rem 0.5rem;
     border-radius: 3px;
+    font-weight: bold;
+}
+
+.movie-info span.green {
+    color: rgb(0, 255, 0);
+}
+
+.movie-info span.orange {
+    color: rgb(255, 166, 0);
+}
+
+.movie-info span.red {
+    color: rgb(255, 0, 0);
 }
